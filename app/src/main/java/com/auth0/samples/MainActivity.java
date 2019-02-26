@@ -2,6 +2,7 @@ package com.auth0.samples;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,6 +43,14 @@ public class MainActivity extends Activity {
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (WebAuthProvider.resume(intent)) {
+            return;
+        }
+        super.onNewIntent(intent);
+    }
+
     private void login() {
         token.setText("Not logged in");
         WebAuthProvider.init(auth0)
@@ -76,6 +85,7 @@ public class MainActivity extends Activity {
                                 token.setText("Logged in: " + credentials.getAccessToken());
                             }
                         });
+                        startActivity(new Intent(MainActivity.this, UserProfile.class));
                     }
                 });
     }
