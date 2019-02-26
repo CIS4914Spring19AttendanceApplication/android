@@ -17,9 +17,6 @@ import com.auth0.android.provider.AuthCallback;
 import com.auth0.android.provider.WebAuthProvider;
 import com.auth0.android.result.Credentials;
 
-/**
- * Created by lbalmaceda on 5/10/17.
- */
 
 public class MainActivity extends Activity {
 

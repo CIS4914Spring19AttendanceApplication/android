@@ -5,4 +5,5 @@
     <string name="com_auth0_domain">rollcall-app.auth0.com</string>
     <string name="qr_description">Scan the QR Code to Sign In!</string>
     <string name="welcome">Welcome, !</string>
+    <string name="SignIn">Sign In</string>
 </resources>
