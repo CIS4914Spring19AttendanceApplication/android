@@ -11,6 +11,8 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.util.Base64;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -18,12 +20,31 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.SurfaceView;
+
+import com.android.volley.AuthFailureError;
+//import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+//import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserProfile extends Activity {
 
@@ -31,15 +52,49 @@ public class UserProfile extends Activity {
     CameraSource cameraSource;
     TextView textView;
     BarcodeDetector barcodeDetector;
+    private TextView welcomeText;
+    private RequestQueue mRequestQueue;
+    private StringRequest stringRequest;
+    private static final String TAG = UserProfile.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_profile);
         surfaceView = (SurfaceView)findViewById(R.id.camerapreview);
-        textView = (TextView)findViewById(R.id.welcome);
+        welcomeText = (TextView)findViewById(R.id.welcome);
         textView = (TextView)findViewById(R.id.description);
 
+
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://github.com/rollcall-app/api";
+        String authHeader = getIntent().getStringExtra("login_token");
+
+        Request request = new Request.Builder()
+                .addHeader("authorization", authHeader)
+                .url(url)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    final String myResponse = response.body().string();
+
+                    UserProfile.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            welcomeText.setText(myResponse);
+                        }
+                    });
+                }
+            }
+        });
 
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE).build();
@@ -99,4 +154,5 @@ public class UserProfile extends Activity {
         });
 
     }
+
 }

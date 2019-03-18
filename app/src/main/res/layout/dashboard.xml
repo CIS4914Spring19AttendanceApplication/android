@@ -24,6 +24,7 @@
 
     <ImageView
         android:id="@+id/RollCall_Logo"
+        android:contentDescription="@string/SignIn"
         android:layout_width="205dp"
         android:layout_height="199dp"
         android:layout_marginStart="8dp"
@@ -34,5 +35,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rollcall_logo" />
+        android:src="@drawable/rollcall_logo" />
 </android.support.constraint.ConstraintLayout>

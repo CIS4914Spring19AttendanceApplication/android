@@ -49,10 +49,10 @@ public class MainActivity extends Activity {
     }
 
     private void login() {
-        token.setText("Not logged in");
+        token.setText("");
         WebAuthProvider.init(auth0)
-                .withScheme("demo")
                 .withAudience(String.format("https://%s/userinfo", getString(R.string.com_auth0_domain)))
+                .withScope("openid profile")
                 .start(MainActivity.this, new AuthCallback() {
                     @Override
                     public void onFailure(@NonNull final Dialog dialog) {
@@ -79,10 +79,12 @@ public class MainActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                token.setText("Logged in: " + credentials.getAccessToken());
+                                token.setText(credentials.getAccessToken());
                             }
                         });
-                        startActivity(new Intent(MainActivity.this, UserProfile.class));
+                        Intent intent = new Intent(MainActivity.this, UserProfile.class);
+                        intent.putExtra("login_token", credentials.getAccessToken());
+                        startActivity(intent);
                     }
                 });
     }
