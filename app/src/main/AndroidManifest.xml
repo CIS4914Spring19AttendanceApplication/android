@@ -4,6 +4,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -14,20 +15,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.auth0.samples.Dashboard">
+        <activity android:name="com.auth0.samples.SignIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.auth0.samples.MainActivity">
+        <activity android:name="com.auth0.samples.QRScanner">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.auth0.samples.UserProfile">
+        <activity android:name="com.auth0.samples.Organizations">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.auth0.samples.RegisterUser">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>

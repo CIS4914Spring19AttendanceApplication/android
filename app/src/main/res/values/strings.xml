@@ -6,4 +6,16 @@
     <string name="qr_description">Scan the QR Code to Sign In!</string>
     <string name="welcome">{Welcome  + user.firstName + !}</string>
     <string name="SignIn">Sign In</string>
+    <string name="LogIn">Log In</string>
+    <string name="API">https://rollcall-api.herokuapp.com</string>
+    <string name="request_credentials_title">Authenticate to continue</string>
+    <string name="orgs">My orgs</string>
+    <string name="Registration">Roll Call Registration</string>
+    <string name="Register">Register!</string>
+    <string name="FirstName">First Name</string>
+    <string name="LastName">Last Name</string>
+    <string name="Email">Email</string>
+    <string name="Phone">Phone Number (XXX-XXX-XXXX)</string>
+    <string name="PhoneHint">Phone Number</string>
+    <string name="Year">Year</string>
 </resources>
