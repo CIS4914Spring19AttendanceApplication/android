@@ -185,8 +185,8 @@ public class QRScanner extends Activity {
     private void showNextActivity(Class next) {
         Intent intent = new Intent(QRScanner.this, next);
         intent.putExtra(EXTRA_ACCESS_TOKEN, getIntent().getStringExtra(EXTRA_ACCESS_TOKEN));
-        intent.putExtra(EXTRA_ID_TOKEN, getIntent().getStringExtra(EXTRA_ID_TOKEN));
-        intent.putExtra("USER_EMAIL",email);
+        intent.putExtra("USER_EMAIL", email);
+        intent.putExtra("USER_NAME",name);
         startActivity(intent);
         finish();
     }
