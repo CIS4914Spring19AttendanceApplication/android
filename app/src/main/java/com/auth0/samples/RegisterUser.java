@@ -46,6 +46,7 @@ public class RegisterUser extends Activity {
     private static String lastName = "";
     private static String phoneNumber = "";
     private static String year = "";
+    private static final String API_URL_REGISTER = "https://rollcall-api.herokuapp.com/api/user/registeruser/";
 
 
     @Override
@@ -67,8 +68,8 @@ public class RegisterUser extends Activity {
 
         final NumberPicker np = (NumberPicker) findViewById(R.id.yearPicker);
         np.setMinValue(0);
-        np.setMaxValue(3);
-        np.setDisplayedValues(new String[] {"Freshman", "Sophmore", "Junior", "Senior"});
+        np.setMaxValue(4);
+        np.setDisplayedValues(new String[] {"Freshman", "Sophmore", "Junior", "Senior", "Graduate"});
         np.setWrapSelectorWheel(false);
 
 
@@ -107,7 +108,7 @@ public class RegisterUser extends Activity {
 
                 Request request = new Request.Builder()
                         .header("Authorization", "Bearer " + accessToken)
-                        .url("https://rollcall-api.herokuapp.com/api/user/registeruser/")
+                        .url(API_URL_REGISTER)
                         .post(requestBody)
                         .build();
 

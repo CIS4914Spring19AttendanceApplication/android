@@ -60,7 +60,7 @@ public class Organizations extends Activity {
                             Request request = new Request.Builder()
                                     .header("Authorization", "Bearer " + accessToken)
                                     .get()
-                                    .url(API_URL + "nihirpatel@ufl.edu")
+                                    .url(API_URL + email)
                                     .build();
                             Log.d("URL", API_URL);
                             client.newCall(request).enqueue(new Callback() {
@@ -76,6 +76,7 @@ public class Organizations extends Activity {
                                     } else {
                                         try {
                                             String jsonData = response.body().string();
+                                            Log.d("qweqw,", jsonData);
                                             JSONObject reader = new JSONObject(jsonData);
                                             JSONArray Jarray = reader.getJSONArray("enrollments");
                                             final String Orgs[] = new String[Jarray.length()];
@@ -96,8 +97,6 @@ public class Organizations extends Activity {
                                             @Override
                                             public void run() {
                                                 headerText.setText(name + "'s Organizations");
-                                                //recyclerView.setAdapter(new Adapter(this, Orgs));
-
                                             }
                                         });
 

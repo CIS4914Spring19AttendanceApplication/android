@@ -15,7 +15,8 @@
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
+        android:background="@color/lightblue"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,8 +30,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/organizations"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header" />
@@ -39,31 +38,27 @@
         android:id="@+id/signedIn"
         android:layout_width="200dp"
         android:layout_height="45dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/SignIn"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/organizations"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myOrgs"
-        app:layout_constraintVertical_bias="0.821" />
+        app:layout_constraintTop_toBottomOf="@+id/myOrgs" />
 
     <Button
         android:id="@+id/organizations"
         android:layout_width="200dp"
         android:layout_height="45dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/orgs"
         android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/signedIn"
-        app:layout_constraintTop_toBottomOf="@+id/description"
-        app:layout_constraintVertical_bias="0.764" />
+        app:layout_constraintTop_toBottomOf="@+id/myOrgs" />
 
 </android.support.constraint.ConstraintLayout>
