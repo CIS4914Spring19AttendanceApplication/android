@@ -8,16 +8,28 @@
     android:visibility="visible"
     tools:layout_editor_absoluteY="25dp">
 
+    <ImageView
+        android:id="@+id/format"
+        android:layout_width="408dp"
+        android:layout_height="757dp"
+        android:background="@color/white"
+        android:contentDescription="@string/welcome"
+        android:visibility="visible"
+        android:src="@drawable/dashboard_format"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
     <TextView
         android:id="@+id/welcome"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
+        android:layout_width="370dp"
+        android:layout_height="51dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="44dp"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +45,7 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/description"
         app:layout_constraintTop_toBottomOf="@+id/welcome"
+        app:layout_constraintVertical_bias="0.843"
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView
@@ -45,14 +58,16 @@
         android:baselineAligned="false"
         android:text="@string/qr_description"
         android:textAlignment="center"
+        android:textAllCaps="false"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome"
-        app:layout_constraintVertical_bias="0.633" />
+        app:layout_constraintVertical_bias="0.829" />
 
     <Button
         android:id="@+id/signedIn"
@@ -65,7 +80,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description"
-        app:layout_constraintVertical_bias="0.77" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/organizations"
@@ -82,6 +97,6 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/signedIn"
         app:layout_constraintTop_toBottomOf="@+id/description"
-        app:layout_constraintVertical_bias="0.762" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>

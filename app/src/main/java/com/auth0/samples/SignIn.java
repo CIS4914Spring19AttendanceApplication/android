@@ -3,6 +3,7 @@ package com.auth0.samples;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -54,7 +55,7 @@ public class SignIn extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        TextView rollCall = (TextView)findViewById(R.id.rollCall);
 
         //Setup Credentials Manager
         auth0 = new Auth0(this);

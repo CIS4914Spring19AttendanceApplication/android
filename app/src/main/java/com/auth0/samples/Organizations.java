@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -32,6 +33,7 @@ public class Organizations extends Activity {
     private static final String API_URL = "https://rollcall-api.herokuapp.com/api/user/get/";
     private static String name = "";
     private static String email = "";
+    ExpandableTextView expandableTextView;
 
 
     @Override
@@ -39,9 +41,12 @@ public class Organizations extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.organizations);
         headerText = (TextView) findViewById(R.id.header);
-        recyclerView = (RecyclerView) findViewById(R.id.myOrgs);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
+//        recyclerView = (RecyclerView) findViewById(R.id.myOrgs);
+////        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+////        recyclerView.setHasFixedSize(true);
+
+        expandableTextView = (ExpandableTextView)findViewById(R.id.expandable_text_view);
+
 
         Button qr = (Button) findViewById(R.id.signedIn);
         qr.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +65,7 @@ public class Organizations extends Activity {
                             Request request = new Request.Builder()
                                     .header("Authorization", "Bearer " + accessToken)
                                     .get()
-                                    .url(API_URL + email)
+                                    .url(API_URL + "seboli@ufl.edu")
                                     .build();
                             Log.d("URL", API_URL);
                             client.newCall(request).enqueue(new Callback() {
@@ -87,7 +92,8 @@ public class Organizations extends Activity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    recyclerView.setAdapter(new Adapter(Organizations.this, Orgs));
+//                                                    recyclerView.setAdapter(new Adapter(Organizations.this, Orgs));
+                                                    expandableTextView.setText(Orgs[1]);
                                                 }
                                             });
                                         } catch (JSONException a) {

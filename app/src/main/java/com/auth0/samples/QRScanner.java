@@ -2,6 +2,7 @@ package com.auth0.samples;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -42,6 +43,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import cn.refactor.lib.colordialog.ColorDialog;
+import cn.refactor.lib.colordialog.PromptDialog;
 import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.MediaType;
@@ -53,6 +56,7 @@ import okhttp3.Callback;
 
 import static com.auth0.samples.SignIn.EXTRA_ACCESS_TOKEN;
 import static com.auth0.samples.SignIn.EXTRA_ID_TOKEN;
+import static java.lang.System.err;
 
 public class QRScanner extends Activity {
 
@@ -86,6 +90,9 @@ public class QRScanner extends Activity {
             ActivityCompat.requestPermissions(QRScanner.this, new String[] {Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
 
         final String accessToken = getIntent().getStringExtra(EXTRA_ACCESS_TOKEN);
+        Log.d("HERE", accessToken);
+
+
 
         //Getting User's email to store and send to next activity
         Auth0 auth0 = new Auth0(this);
@@ -124,7 +131,7 @@ public class QRScanner extends Activity {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            welcomeText.setText("Welcome, " + name + "!");
+                                            welcomeText.setText("Welcome, " + name+ "!");
                                         }
                                     });
 
@@ -217,6 +224,7 @@ public class QRScanner extends Activity {
 
             if (type.equals("org")) {
                 String id = obj.getString("org_id");
+                final String org_name = obj.getString("org_name");
 
 
                 JsonObject checkIn = new JsonObject();
@@ -247,42 +255,34 @@ public class QRScanner extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    setContentView(R.layout.successpopup);
-                                    DisplayMetrics dm = new DisplayMetrics();
-                                    getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-                                    int width = dm.widthPixels;
-                                    int height = dm.heightPixels;
-
-                                    getWindow().setLayout((int) (width * .8), (int) (height * .6));
-                                    Button done = (Button) findViewById(R.id.done);
-                                    done.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            showNextActivity(QRScanner.class);
-                                        }
-                                    });
+                                    new PromptDialog(QRScanner.this)
+                                            .setDialogType(PromptDialog.DIALOG_TYPE_WRONG)
+                                            .setAnimationEnable(true)
+                                            .setTitleText("Uh Oh")
+                                            .setContentText("You have already signed in to this organization.")
+                                            .setPositiveListener("Done", new PromptDialog.OnPositiveListener() {
+                                                @Override
+                                                public void onClick(PromptDialog dialog) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
                                 }
                             });
                         } else {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    setContentView(R.layout.successpopup);
-                                    DisplayMetrics dm = new DisplayMetrics();
-                                    getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-                                    int width = dm.widthPixels;
-                                    int height = dm.heightPixels;
-
-                                    getWindow().setLayout((int) (width * .8), (int) (height * .6));
-                                    Button done = (Button) findViewById(R.id.done);
-                                    done.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            showNextActivity(QRScanner.class);
-                                        }
-                                    });
+                                    new PromptDialog(QRScanner.this)
+                                            .setDialogType(PromptDialog.DIALOG_TYPE_SUCCESS)
+                                            .setAnimationEnable(true)
+                                            .setTitleText("Success")
+                                            .setContentText("You have signed in to "+ org_name +". Thanks for joining!")
+                                            .setPositiveListener("Done", new PromptDialog.OnPositiveListener() {
+                                                @Override
+                                                public void onClick(PromptDialog dialog) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
                                 }
                             });
                         }
@@ -291,6 +291,7 @@ public class QRScanner extends Activity {
 
             } else if (type.equals("event")) {
                 String id = obj.getString("event_id");
+                final String event_name = obj.getString("name");
 
                 JsonObject checkIn = new JsonObject();
 
@@ -318,42 +319,34 @@ public class QRScanner extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    setContentView(R.layout.uhohpopup);
-                                    DisplayMetrics dm = new DisplayMetrics();
-                                    getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-                                    int width = dm.widthPixels;
-                                    int height = dm.heightPixels;
-
-                                    getWindow().setLayout((int) (width * .8), (int) (height * .6));
-                                    Button done = (Button) findViewById(R.id.done);
-                                    done.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            showNextActivity(QRScanner.class);
-                                        }
-                                    });
+                                    new PromptDialog(QRScanner.this)
+                                            .setDialogType(PromptDialog.DIALOG_TYPE_WRONG)
+                                            .setAnimationEnable(true)
+                                            .setTitleText("Uh Oh")
+                                            .setContentText("This event is not open for sign in right now.")
+                                            .setPositiveListener("Done", new PromptDialog.OnPositiveListener() {
+                                                @Override
+                                                public void onClick(PromptDialog dialog) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
                                 }
                             });
                         } else {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    setContentView(R.layout.successpopup);
-                                    DisplayMetrics dm = new DisplayMetrics();
-                                    getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-                                    int width = dm.widthPixels;
-                                    int height = dm.heightPixels;
-
-                                    getWindow().setLayout((int) (width * .8), (int) (height * .6));
-                                    Button done = (Button) findViewById(R.id.done);
-                                    done.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            showNextActivity(QRScanner.class);
-                                        }
-                                    });
+                                    new PromptDialog(QRScanner.this)
+                                            .setDialogType(PromptDialog.DIALOG_TYPE_SUCCESS)
+                                            .setAnimationEnable(true)
+                                            .setTitleText("Success")
+                                            .setContentText("You have signed in to "+ event_name +". Thanks for coming!")
+                                            .setPositiveListener("Done", new PromptDialog.OnPositiveListener() {
+                                                @Override
+                                                public void onClick(PromptDialog dialog) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
                                 }
                             });
                         }
