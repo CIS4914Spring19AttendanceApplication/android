@@ -40,12 +40,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.auth0.samples.PopUp"
-            android:theme="@style/AppTheme.CustomTheme">
+        <activity android:name="com.auth0.samples.ExampleItem">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
         </activity>
 
         <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

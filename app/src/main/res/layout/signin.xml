@@ -22,6 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rollCall"
         app:layout_constraintVertical_bias="0.498" />
+
     <Button
         android:id="@+id/SignIn"
         style="@style/Widget.AppCompat.Button.Colored"
@@ -31,11 +32,12 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="128dp"
         android:background="@drawable/roundedbutton"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/roboto_condensed_regular"
         android:text="@string/SignIn"
         android:textAlignment="center"
+        android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="28sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,6 +50,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:fontFamily="@font/roboto_condensed_regular"
         android:gravity="center"
         android:text="@string/RollCall"
         android:textAlignment="center"

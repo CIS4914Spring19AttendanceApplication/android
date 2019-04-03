@@ -5,7 +5,7 @@
     <string name="com_auth0_domain">rollcall-app.auth0.com</string>
     <string name="qr_description">Scan the QR code to sign in!</string>
     <string name="welcome">{Welcome  + user.firstName + !}</string>
-    <string name="RollCall">Roll Call</string>
+    <string name="RollCall">ROLL CALL</string>
     <string name="SignIn">Sign In</string>
     <string name="LogIn">Log In</string>
     <string name="Close">Close</string>
@@ -28,4 +28,6 @@
     <string name="checkedin">You have signed in to </string>
     <string name="thanks">Thanks for coming!</string>
     <string name="Done">Done</string>
+    <string name="Events">Events Attended</string>
+    <string name="Points">Points Earned</string>
 </resources>

@@ -69,7 +69,9 @@ public class QRScanner extends Activity {
     private static final String API_URL_CHECKIN = "https://rollcall-api.herokuapp.com/api/checkin/";
     private static String email = "";
     private static String name = "";
+    private static String accessToken = "";
     private static final int MY_CAMERA_REQUEST_CODE = 100;
+    private static JSONArray qrResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +91,7 @@ public class QRScanner extends Activity {
                 == PackageManager.PERMISSION_DENIED)
             ActivityCompat.requestPermissions(QRScanner.this, new String[] {Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
 
-        final String accessToken = getIntent().getStringExtra(EXTRA_ACCESS_TOKEN);
+        accessToken = getIntent().getStringExtra(EXTRA_ACCESS_TOKEN);
         Log.d("HERE", accessToken);
 
 
@@ -124,7 +126,7 @@ public class QRScanner extends Activity {
                                     try {
                                         String jsonData = response.body().string();
                                         JSONObject reader = new JSONObject(jsonData);
-                                        name = reader.getString("first_name");
+                                        name = reader.getString("first_name").replace(" ", "");
                                     } catch (JSONException a) {
                                         a.printStackTrace();
                                     }
@@ -195,14 +197,13 @@ public class QRScanner extends Activity {
 
                 if (qrCodes.size() != 0) {
                     try {
-                        JSONArray qrResult = new JSONArray(qrCodes.valueAt(0).displayValue);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                cameraSource.release();
-                                barcodeDetector.release();
-                            }
-                        });
+                        qrResult = new JSONArray(qrCodes.valueAt(0).displayValue);
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+                                release();
+//                            }
+//                        });
                         checkIn(qrResult);
 
                     } catch (JSONException e) {
@@ -220,7 +221,6 @@ public class QRScanner extends Activity {
             JSONObject obj = use.getJSONObject(0);
             String type = obj.getString("type");
             Log.d("asdfa", type);
-            final String accessToken = getIntent().getStringExtra(EXTRA_ACCESS_TOKEN);
 
             if (type.equals("org")) {
                 String id = obj.getString("org_id");
@@ -240,9 +240,9 @@ public class QRScanner extends Activity {
                         .url(API_URL_CHECKIN)
                         .post(requestBody)
                         .build();
-                OkHttpClient client = new OkHttpClient();
+                OkHttpClient client1 = new OkHttpClient();
 
-                client.newCall(request).enqueue(new Callback() {
+                client1.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         e.printStackTrace();
@@ -305,9 +305,9 @@ public class QRScanner extends Activity {
                         .url(API_URL_CHECKIN)
                         .post(requestBody)
                         .build();
-                OkHttpClient client = new OkHttpClient();
+                OkHttpClient client1 = new OkHttpClient();
 
-                client.newCall(request).enqueue(new Callback() {
+                client1.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         e.printStackTrace();
