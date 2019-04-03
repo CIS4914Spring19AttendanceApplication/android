@@ -31,6 +31,10 @@ public class Organizations extends Activity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private RecyclerView mRecyclerView1;
+    private RecyclerView.Adapter mAdapter1;
+    private RecyclerView.LayoutManager mLayoutManager1;
+
     TextView headerText;
     private static final String API_URL = "https://rollcall-api.herokuapp.com/api/user/history/";
     private static String name = "";
@@ -89,6 +93,8 @@ public class Organizations extends Activity {
 
                         //Set Array list for RecylcerView
                         final ArrayList<ExampleItem> usersOrgs = new ArrayList<>();
+                        final ArrayList<ExamplePoint> usersPoints = new ArrayList<>();
+
 
                         //Set a new JSONObject reader to read the json data from the response
                         JSONArray orgArray = new JSONArray(jsonData);
@@ -142,6 +148,10 @@ public class Organizations extends Activity {
 
                                 currentUserPoints = currentPoints + currentUserPoints;
                                 totalOrgPoints = totalPoints + totalOrgPoints;
+
+                                usersPoints.add(new ExamplePoint(category,currentPoints + "/" + totalPoints));
+
+
                             }
 
                             final String pointSummary = Integer.toString(currentUserPoints) + "/" + Integer.toString(totalOrgPoints);
@@ -150,6 +160,7 @@ public class Organizations extends Activity {
                                 public void run() {
                                     usersOrgs.add(new ExampleItem(orgName, pointSummary));
 
+                                    //Recycler View for Organizations
                                     mRecyclerView = findViewById(R.id.recyclerView);
                                     mRecyclerView.setHasFixedSize(true);
 
@@ -158,6 +169,17 @@ public class Organizations extends Activity {
 
                                     mRecyclerView.setLayoutManager(mLayoutManager);
                                     mRecyclerView.setAdapter(mAdapter);
+
+
+                                    //Recycler View for Point Categories
+                                    mRecyclerView1 = findViewById(R.id.rv_points);
+                                    mRecyclerView1.setHasFixedSize(true);
+
+                                    mLayoutManager1 = new LinearLayoutManager(Organizations.this);
+                                    mAdapter1 = new PointAdapter(usersPoints);
+
+                                    mRecyclerView1.setLayoutManager(mLayoutManager1);
+                                    mRecyclerView1.setAdapter(mAdapter1);
                                 }
                             });
                         }
