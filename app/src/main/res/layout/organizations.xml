@@ -18,6 +18,7 @@
         android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.363"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,40 +28,69 @@
         android:layout_width="200dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/SignIn"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/organizations"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/organizations"
         android:layout_width="200dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="208dp"
         android:text="@string/orgs"
         android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView"
+        app:layout_constraintVertical_bias="0.979" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="525dp"
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="506dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@android:color/white"
-        android:padding="4dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/signedIn"
+        android:scrollbars="none"
+        android:layout_weight="1"
+        android:fillViewport="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header">
 
 
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:divider="?android:attr/dividerHorizontal"
+            android:showDividers="middle"
+            android:dividerPadding="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header">
 
-    </android.support.v7.widget.RecyclerView>
+            <TableRow
+                android:id="@+id/tableRowHeader"
+                android:layout_width="339dp"
+                android:layout_height="wrap_content">
+
+            </TableRow>
+
+
+
+        </TableLayout>
+    </ScrollView>
 
 
 </android.support.constraint.ConstraintLayout>

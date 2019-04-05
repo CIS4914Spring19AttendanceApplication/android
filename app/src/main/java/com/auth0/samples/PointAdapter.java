@@ -1,5 +1,6 @@
 package com.auth0.samples;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 
 public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ExampleViewHolder> {
     private ArrayList<ExamplePoint> mPointList;
+    private Context context;
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder {
         public TextView mPointCategory;
@@ -23,7 +25,8 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ExampleViewH
         }
     }
 
-    public PointAdapter(ArrayList<ExamplePoint> pointList){
+    public PointAdapter(Context context, ArrayList<ExamplePoint> pointList){
+        this.context = context;
         mPointList = pointList;
     }
 

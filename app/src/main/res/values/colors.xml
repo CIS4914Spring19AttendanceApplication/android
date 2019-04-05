@@ -20,4 +20,5 @@
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
     <color name="lightblue">#4675ff </color>
+    <color name="holo_orange_light">#ffffbb33</color>
 </resources>
