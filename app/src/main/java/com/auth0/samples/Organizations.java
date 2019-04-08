@@ -6,19 +6,14 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.google.android.gms.vision.L;
-import com.ms.square.android.expandabletextview.ExpandableTextView;
+
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -38,18 +33,11 @@ import static com.auth0.samples.SignIn.EXTRA_ACCESS_TOKEN;
 
 public class Organizations extends Activity {
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
-    private RecyclerView mRecyclerView1;
-    private RecyclerView.Adapter mAdapter1;
-    private RecyclerView.LayoutManager mLayoutManager1;
-
     TextView headerText;
     private static final String API_URL = "https://rollcall-api.herokuapp.com/api/user/history/";
     private static String name = "";
     private static String email = "";
+    private int index = 0;
 
 
     @Override
@@ -57,6 +45,8 @@ public class Organizations extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.organizations);
         headerText = (TextView) findViewById(R.id.header);
+        final TableLayout tableLayout = findViewById(R.id.tableLayout);
+
 
         Button qr = (Button) findViewById(R.id.signedIn);
         qr.setOnClickListener(new View.OnClickListener() {
@@ -99,9 +89,6 @@ public class Organizations extends Activity {
                         //Set the variable jsonData to be the response's body
                         String jsonData = response.body().string();
 
-                        //Output for debugging purposes
-                        Log.d("qweqw,", jsonData);
-
                         //Set Array list for RecylcerView
                         final ArrayList<ExampleItem> usersOrgs = new ArrayList<>();
 
@@ -118,8 +105,6 @@ public class Organizations extends Activity {
                             JSONObject orgObject = orgArray.getJSONObject(a);
                             final String orgName = orgObject.getString("org");
 
-                            Log.d("Here", orgName);
-
                             //Sets up variable to give org point summary and users' current points
                             int totalOrgPoints = 0;
                             int currentUserPoints = 0;
@@ -132,23 +117,23 @@ public class Organizations extends Activity {
                                 String eventName = eventObject.getString("name");
                                 String eventLocation = eventObject.getString("location");
 
-//                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZZZZZ");
-//                                Date eventDate = dateFormat.parse(eventObject.getString("date"));
-//                                String formattedDate = dateFormat.format(eventObject.getString("date"));
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                                Date eventDate = dateFormat.parse(eventObject.getString("date"));
 
-//                                Log.d("There", eventName + " " + formattedDate + " " + eventLocation);
+                                dateFormat = new SimpleDateFormat("MM/dd");
+                                String formattedDate = dateFormat.format(eventDate);
+
 
                                 //Gets all the events's points
                                 JSONArray pointArray = eventObject.getJSONArray("point_categories");
-                                String description = "";
+                                String description = formattedDate + ", " + eventLocation;
                                 for (int j = 0; j < pointArray.length(); j++) {
                                     JSONObject pointObject = pointArray.getJSONObject(j);
 
                                     int points = pointObject.getInt("points");
                                     String pointName = pointObject.getString("name");
 
-                                    Log.d("Inside", points + " " + pointName);
-                                    description = description + eventLocation + ", " + Integer.toString(points) + " " + pointName + " point(s)\n";
+                                    description = description + ", " + Integer.toString(points) + " " + pointName + " point(s)";
 
                                 }
 
@@ -191,7 +176,6 @@ public class Organizations extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    TableLayout tableLayout = findViewById(R.id.tableLayout);
                                     Typeface regular = ResourcesCompat.getFont(Organizations.this,R.font.roboto_condensed_regular);
 
                                     TableRow tr1 = new TableRow(Organizations.this);
@@ -214,12 +198,23 @@ public class Organizations extends Activity {
                                     pointHeader.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
                                     pointHeader.setTypeface(regular);
 
+                                    TableRow.LayoutParams text1 = new TableRow.LayoutParams();
+                                    text1.width=0;
+                                    text1.weight= (float)0.8;
+                                    orgHeader.setLayoutParams(text1);
+
+                                    TableRow.LayoutParams text2 = new TableRow.LayoutParams();
+                                    text2.width=0;
+                                    text2.weight= (float)0.2;
+
+                                    pointHeader.setLayoutParams(text2);
 
                                     tr1.addView(orgHeader);
                                     tr1.addView(pointHeader);
 
-                                    TableRow tr2 = new TableRow(Organizations.this);
-                                    TableRow tr3 = new TableRow(Organizations.this);
+                                    final TableRow tr2 = new TableRow(Organizations.this);
+                                    final TableRow tr3 = new TableRow(Organizations.this);
+
 
                                     TextView eventHeader = new TextView(Organizations.this);
                                     TextView pointsHeader = new TextView(Organizations.this);
@@ -235,6 +230,8 @@ public class Organizations extends Activity {
                                     pointsHeader.setTypeface(regular);
 
                                     tr2.addView(eventHeader);
+                                    tr2.setVisibility(View.GONE);
+                                    tr2.setId(index);
 
                                     tableLayout.addView(tr1, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
                                     tableLayout.addView(tr2, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
@@ -258,19 +255,27 @@ public class Organizations extends Activity {
                                         eventDescription.setTypeface(regular);
 
 
+
+                                        TableRow.LayoutParams text3 = new TableRow.LayoutParams();
+                                        text3.width=0;
+                                        text3.weight= (float)0.7;
+                                        eventName.setLayoutParams(text3);
                                         tr4.addView(eventName);
-                                        //tr4.addView(eventDescription);
+                                        tr4.setVisibility(View.GONE);
+                                        tr4.setTag(index);
 
-
-                                        tableLayout.addView(tr4, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                                        tableLayout.addView(tr4, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.MATCH_PARENT));
+                                        index++;
 
                                     }
                                     tr3.addView(pointsHeader);
+                                    tr3.setVisibility(View.GONE);
+                                    tr3.setId(index);
+
                                     tableLayout.addView(tr3, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
-
-                                    for(int i=0; i < usersPoints.size(); i++){
-                                        TableRow tr6 = new TableRow(Organizations.this);
+                                    for(int i=0; i < usersPoints.size(); i++) {
+                                        final TableRow tr6 = new TableRow(Organizations.this);
 
                                         TextView pointCategory = new TextView(Organizations.this);
                                         TextView pointTotals = new TextView(Organizations.this);
@@ -284,7 +289,7 @@ public class Organizations extends Activity {
                                         pointCategory.setTypeface(regular);
 
 
-                                        if(usersPoints.get(i).getIsComplete())
+                                        if (usersPoints.get(i).getIsComplete())
                                             pointTotals.setTextColor(getResources().getColor(R.color.green));
                                         else
                                             pointTotals.setTextColor(getResources().getColor(R.color.red));
@@ -292,25 +297,66 @@ public class Organizations extends Activity {
                                         pointTotals.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
                                         pointTotals.setTypeface(regular);
 
+
+                                        TableRow.LayoutParams text4 = new TableRow.LayoutParams();
+                                        text4.width = 0;
+                                        text4.weight = (float) 0.85;
+                                        pointCategory.setLayoutParams(text4);
+
+                                        TableRow.LayoutParams text5 = new TableRow.LayoutParams();
+                                        text5.width = 0;
+                                        text5.weight = (float) 0.15;
+                                        pointTotals.setLayoutParams(text5);
+
+
                                         tr6.addView(pointCategory);
                                         tr6.addView(pointTotals);
+                                        tr6.setVisibility(View.GONE);
+                                        tr6.setTag(index);
 
-                                        tableLayout.addView(tr6, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-
+                                        tableLayout.addView(tr6, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                                        index++;
                                     }
 
+                                    tr1.setOnClickListener(new View.OnClickListener(){
+                                        @Override
+                                        public void onClick(View v) {
+                                            if(tr2.getVisibility() == View.GONE) {
+                                                tr2.setVisibility(View.VISIBLE);
+                                                tr3.setVisibility(View.VISIBLE);
 
+                                                for(int i = tr2.getId(); i < usersEvents.size()+tr2.getId(); i++)
+                                                    tableLayout.findViewWithTag(i).setVisibility(View.VISIBLE);
+
+                                                for(int i = tr3.getId(); i < usersPoints.size()+tr3.getId(); i++)
+                                                    tableLayout.findViewWithTag(i).setVisibility(View.VISIBLE);
+                                            }
+                                            else{
+                                                tr2.setVisibility(View.GONE);
+                                                tr3.setVisibility(View.GONE);
+
+                                                for(int i = tr2.getId(); i < usersEvents.size()+tr2.getId(); i++)
+                                                    tableLayout.findViewWithTag(i).setVisibility(View.GONE);
+
+                                                for(int i = tr3.getId(); i < usersPoints.size()+tr3.getId(); i++)
+                                                    tableLayout.findViewWithTag(i).setVisibility(View.GONE);
+                                            }
+                                        }
+                                    });
                                 }
                             });
                         }
 
                     } catch (JSONException a) {
                         a.printStackTrace();
+                    }catch (ParseException d){
+                        d.printStackTrace();
                     }
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             headerText.setText(name + "'s Organizations");
+
                         }
                     });
 

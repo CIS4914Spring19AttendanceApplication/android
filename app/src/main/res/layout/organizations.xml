@@ -33,23 +33,21 @@
         android:text="@string/SignIn"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/organizations"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
     <Button
         android:id="@+id/organizations"
         android:layout_width="200dp"
         android:layout_height="45dp"
-        android:layout_marginStart="208dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/orgs"
         android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView"
-        app:layout_constraintVertical_bias="0.979" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -71,8 +69,6 @@
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:divider="?android:attr/dividerHorizontal"
             android:showDividers="middle"
             android:dividerPadding="3dp"
@@ -86,7 +82,6 @@
                 android:layout_height="wrap_content">
 
             </TableRow>
-
 
 
         </TableLayout>

@@ -2,25 +2,17 @@ package com.auth0.samples;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.VoiceInteractor;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.view.SurfaceView;
 import android.widget.Toast;
@@ -43,7 +35,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import cn.refactor.lib.colordialog.ColorDialog;
 import cn.refactor.lib.colordialog.PromptDialog;
 import okhttp3.Call;
 import okhttp3.Headers;
@@ -55,8 +46,7 @@ import okhttp3.Response;
 import okhttp3.Callback;
 
 import static com.auth0.samples.SignIn.EXTRA_ACCESS_TOKEN;
-import static com.auth0.samples.SignIn.EXTRA_ID_TOKEN;
-import static java.lang.System.err;
+
 
 public class QRScanner extends Activity {
 
