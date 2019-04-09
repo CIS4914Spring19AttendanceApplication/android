@@ -70,7 +70,7 @@ public class Organizations extends Activity {
         Request request = new Request.Builder()
                 .header("Authorization", "Bearer " + accessToken)
                 .get()
-                .url(API_URL + "seboli@ufl.edu")
+                .url(API_URL + email)
                 .build();
 
         //Implements the API Call asynchronously
