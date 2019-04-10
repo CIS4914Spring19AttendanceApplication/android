@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -523,6 +524,7 @@ public class QRScanner extends Activity {
                                         .setTitleText("Additional Questions")
                                         .setContentText("Please provide the following information");
 
+                                additional.setCanceledOnTouchOutside(false);
                                 additional.setPositiveListener("Done", new PromptDialog.OnPositiveListener() {
                                     @Override
                                     public void onClick(PromptDialog dialog) {
@@ -530,8 +532,6 @@ public class QRScanner extends Activity {
                                         final AlertDialog.Builder builder = new AlertDialog.Builder(QRScanner.this);
                                         final LinearLayout layout = new LinearLayout(QRScanner.this);
                                         layout.setOrientation(LinearLayout.VERTICAL);
-                                        LayoutInflater inflater = LayoutInflater.from(QRScanner.this);
-                                        View mview = inflater.inflate(R.layout.layout_dialog, null);
 
                                         for (int index = 0; index < additionalFields.length(); index++) {
                                             try {
@@ -541,13 +541,15 @@ public class QRScanner extends Activity {
                                                 e.printStackTrace();
                                             }
                                             Log.d("weqwer123", questions[index]);
-                                            final EditText input = new EditText(mview.getContext());
+                                            final EditText input = new EditText(QRScanner.this);
                                             input.setHint(questions[index]);
+                                            input.setGravity(Gravity.CENTER_HORIZONTAL);
                                             input.setTag(index);
 
-                                            layout.addView(input, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                                            layout.addView(input, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                                         }
 
+                                        layout.setGravity(View.TEXT_ALIGNMENT_CENTER);
                                         builder.setView(layout);
                                         builder.setTitle("Additional Questions")
                                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -699,6 +701,14 @@ public class QRScanner extends Activity {
                                                 });
                                         builder.create();
                                         builder.show();
+                                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                            Log.d("did not work", "permissions");
+                                        }
+                                        try {
+                                            cameraSource.start(surfaceView.getHolder());
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                         dialog.dismiss();
                                     }
                                 }).show();
