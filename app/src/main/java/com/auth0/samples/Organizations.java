@@ -156,7 +156,7 @@ public class Organizations extends Activity {
                                 currentUserPoints = currentPoints + currentUserPoints;
                                 totalOrgPoints = totalPoints + totalOrgPoints;
 
-                                if( currentPoints == totalPoints)
+                                if( currentPoints >= totalPoints)
                                     complete = true;
 
                                 usersPoints.add(new ExamplePoint(category,currentPoints + "/" + totalPoints, complete));
@@ -166,7 +166,7 @@ public class Organizations extends Activity {
 
                             final boolean orgComplete;
 
-                            if(currentUserPoints == totalOrgPoints)
+                            if(currentUserPoints >= totalOrgPoints)
                                 orgComplete = true;
                             else
                                 orgComplete = false;

@@ -50,6 +50,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/roboto_condensed_regular"
         android:gravity="center"
         android:text="@string/RollCall"
@@ -57,9 +58,12 @@
         android:textColor="@color/lightblue"
         android:textSize="50sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/SignIn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.19" />
 
     <TextView
         android:id="@+id/token"
