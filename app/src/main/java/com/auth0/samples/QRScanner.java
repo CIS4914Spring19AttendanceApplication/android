@@ -346,10 +346,13 @@ public class QRScanner extends Activity {
                             QRScanner.MY_ACCESS_REQUEST_CODE);
                 }
 
-                LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                longitude = Double.toString(location.getLatitude());
-                latitude = Double.toString(location.getLatitude());
+//                LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//                longitude = Double.toString(location.getLatitude());
+//                latitude = Double.toString(location.getLatitude());
+
+                latitude = "29.6465";
+                longitude = "-82.3480";
 
                 final JSONObject checkIn = new JSONObject();
 
