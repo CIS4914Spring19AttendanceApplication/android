@@ -35,6 +35,8 @@ import com.auth0.android.authentication.AuthenticationAPIClient;
 import com.auth0.android.authentication.AuthenticationException;
 import com.auth0.android.callback.BaseCallback;
 import com.auth0.android.result.UserProfile;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -59,6 +61,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.Callback;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.auth0.samples.SignIn.EXTRA_ACCESS_TOKEN;
 
 
@@ -82,7 +87,7 @@ public class QRScanner extends Activity {
     private static SparseArray<Barcode> qrCodes;
     private static String latitude;
     private static String longitude;
-    private EditText result;
+    private FusedLocationProviderClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,11 +108,7 @@ public class QRScanner extends Activity {
                 == PackageManager.PERMISSION_DENIED)
             ActivityCompat.requestPermissions(QRScanner.this, new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
 
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_DENIED && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_DENIED)
-            ActivityCompat.requestPermissions(QRScanner.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, MY_ACCESS_REQUEST_CODE);
-
+        requestPermission();
 
         accessToken = getIntent().getStringExtra(EXTRA_ACCESS_TOKEN);
 
@@ -334,16 +335,8 @@ public class QRScanner extends Activity {
                 final JSONArray points = obj.getJSONArray("point_categories");
                 final JSONArray additionalFields = obj.getJSONArray("additional_fields");
 
-                if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                    ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                            QRScanner.MY_ACCESS_REQUEST_CODE);
-                }
-
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            QRScanner.MY_ACCESS_REQUEST_CODE);
+                if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermission();
                 }
 
 //                LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -351,8 +344,18 @@ public class QRScanner extends Activity {
 //                longitude = Double.toString(location.getLatitude());
 //                latitude = Double.toString(location.getLatitude());
 
-                latitude = "29.6465";
-                longitude = "-82.3480";
+                client = LocationServices.getFusedLocationProviderClient(this);
+                client.getLastLocation().addOnSuccessListener(QRScanner.this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if(location!= null){
+                            latitude = Double.toString(location.getLatitude());
+                            longitude = Double.toString(location.getLongitude());
+
+                        }
+                    }
+                });
+                
 
                 final JSONObject checkIn = new JSONObject();
 
@@ -758,5 +761,8 @@ public class QRScanner extends Activity {
         intent.putExtra("USER_NAME",first_name);
         startActivity(intent);
         finish();
+    }
+    private void requestPermission(){
+        ActivityCompat.requestPermissions(QRScanner.this, new String[]{ACCESS_FINE_LOCATION}, 1);
     }
 }
