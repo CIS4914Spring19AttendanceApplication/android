@@ -63,6 +63,11 @@ public class Organizations extends Activity {
         final String name = getIntent().getStringExtra("USER_NAME");
 
 
+        headerText.setText(name + "'s Organizations");
+
+
+
+
         //Sets up new OKhttp client for HTTP GET Request
         OkHttpClient client = new OkHttpClient();
 
@@ -352,14 +357,6 @@ public class Organizations extends Activity {
                     }catch (ParseException d){
                         d.printStackTrace();
                     }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            headerText.setText(name + "'s Organizations");
-
-                        }
-                    });
-
                 }
 
             }
