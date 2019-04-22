@@ -355,7 +355,7 @@ public class QRScanner extends Activity {
                         }
                     }
                 });
-                
+
 
                 final JSONObject checkIn = new JSONObject();
 
